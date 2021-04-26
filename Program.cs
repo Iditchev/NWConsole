@@ -93,13 +93,14 @@ namespace NorthwindConsole
                         }
                         else { logger.Error("Invalid entry, please try again");}
                     }
-                      else if (choice == "2")
+                    else if (choice == "2")
                      {
-                         Categories category = new Categories();
+                         
                          Console.WriteLine("Enter Category Name:");
-                         category.CategoryName = Console.ReadLine();
+                         var CategoryName = Console.ReadLine();
                          Console.WriteLine("Enter the Category Description:");
-                         category.Description = Console.ReadLine();
+                         var Description = Console.ReadLine();
+                         var category = new Categories {CategoryName = CategoryName, Description = Description};
                           ValidationContext context = new ValidationContext(category, null, null);
                          List<ValidationResult> results = new List<ValidationResult>();
 
@@ -117,6 +118,8 @@ namespace NorthwindConsole
                              else
                              {
                                  logger.Info("Validation passed");
+                                 db.AddCategory(category);
+                                 logger.Info("Category added - {name}", category.CategoryName);
                                  
                              }
                          }
@@ -128,7 +131,7 @@ namespace NorthwindConsole
                              }
                          }
                      }
-                     else if (choice == "3")
+                    else if (choice == "3")
                      {
                          
                      }
