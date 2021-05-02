@@ -258,7 +258,7 @@ namespace NorthwindConsole
                             Product.ProductName = Console.ReadLine();
                             
                             
-                            Product.CategoryId = Product.CategoryId;
+                            Product.CategoryId = CategoryId;
                             db.AddProduct(Product);
                             } 
                             else 
