@@ -28,9 +28,6 @@ namespace NorthwindConsole
                     Console.WriteLine("4) Display Products ");
                     Console.WriteLine("5) Add Product");
                     Console.WriteLine("6) Edit Product");
-                    Console.WriteLine("7) ");
-                    Console.WriteLine("8) Display All Products");
-                    Console.WriteLine("9) Display single product");
                     Console.WriteLine("\"q\" to quit");
                     choice = Console.ReadLine();
                     Console.Clear();
@@ -240,7 +237,36 @@ namespace NorthwindConsole
                      }
                     else if (choice == "5")
                     {
-                           //TODO Add Product
+                           Console.WriteLine("Select the Category you want to add a Product to:");
+                        var db = new NWConsole_96_IDContext();
+                        var query = db.Categories.OrderBy(b => b.CategoryId);
+                        
+                        
+                        foreach (var item in query)
+                            {
+                        Console.WriteLine($"{item.CategoryId}. {item.CategoryName}");
+                            }    
+                      
+                       
+                        bool success = Int32.TryParse (Console.ReadLine(),out int CategoryId); 
+                        if (success)
+                       { var Category = db.Categories.FirstOrDefault(m => m.CategoryId == CategoryId);
+                            if (Category != null)
+                            {
+                            Products Product = new Products();
+                            Console.WriteLine("Enter Product Name");
+                            Product.ProductName = Console.ReadLine();
+                            
+                            
+                            Product.CategoryId = Product.CategoryId;
+                            db.AddProduct(Product);
+                            } 
+                            else 
+                            {
+                            logger.Error("There are no blogs saved with that Id");
+                            }    
+                        }
+                        else { logger.Error("Invalid entry, please try again");}
                     }
                     else if (choice == "6")
                     {
@@ -260,18 +286,7 @@ namespace NorthwindConsole
                             }
                         }
                     }
-                    else if (choice == "7")
-                    {
-                        //TODO Edit Product
-                    }
-                    else if (choice == "8")
-                    {
-                        //TODO Display Products, user decides if they want to see all products, discontinued products, or active products.
-                    }
-                    else if (choice == "9")
-                    {
-                        //TODO Display single product of choosing.
-                    }
+                
                     Console.WriteLine();
 
                 } while (choice.ToLower() != "q");
