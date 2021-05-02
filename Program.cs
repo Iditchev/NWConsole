@@ -27,8 +27,8 @@ namespace NorthwindConsole
                     Console.WriteLine("3) Edit Category");
                     Console.WriteLine("4) Display Products ");
                     Console.WriteLine("5) Add Product");
-                    Console.WriteLine("6) ");
-                    Console.WriteLine("7) Edit Product");
+                    Console.WriteLine("6) Edit Product");
+                    Console.WriteLine("7) ");
                     Console.WriteLine("8) Display All Products");
                     Console.WriteLine("9) Display single product");
                     Console.WriteLine("\"q\" to quit");
@@ -134,7 +134,23 @@ namespace NorthwindConsole
                      }
                     else if (choice == "3")
                      {
-                    
+                          {
+                        // edit Category
+                        Console.WriteLine("Choose the blog to edit:");
+                        var db = new NWConsole_96_IDContext();
+                        var Category = GetCategories(db);
+                        if (Category != null)
+                        {
+                            // input blog
+                            Categories UpdatedCategory = InputCategory(db);
+                            if (UpdatedCategory != null)
+                            {
+                                UpdatedCategory.CategoryId = Category.CategoryId;
+                                db.EditCategory(UpdatedCategory);
+                                logger.Info($"Blog (id: {Category.CategoryId}) updated");
+                            }
+                        }
+                    }
                      }
                        else if (choice == "4")
                      {
