@@ -272,5 +272,40 @@ namespace NorthwindConsole
             logger.Error("Invalid Blog Id");
             return null;
         }
+      public static Categories InputCategory(NWConsole_96_IDContext db)
+        {
+            Categories Category = new Categories();
+            Console.WriteLine("Enter the Category name");
+            Category.CategoryName = Console.ReadLine();
+
+            ValidationContext context = new ValidationContext(Category, null, null);
+            List<ValidationResult> results = new List<ValidationResult>();
+
+            var isValid = Validator.TryValidateObject(Category, context, results, true);
+            if (isValid)
+            {
+                // check for unique name
+                if (db.Categories.Any(b => b.CategoryName == Category.CategoryName))
+                {
+                    // generate validation error
+                    isValid = false;
+                    results.Add(new ValidationResult("Category name exists", new string[] { "Name" }));
+                }
+                else
+                {
+                    logger.Info("Validation passed");
+                }
+            }
+            if (!isValid)
+            {
+                foreach (var result in results)
+                {
+                    logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
+                }
+                return null;
+            }
+
+            return Category;
+        }
     }
 }
