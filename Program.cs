@@ -356,5 +356,41 @@ namespace NorthwindConsole
             logger.Error("Invalid Product Id");
             return null;
         }
+      public static Products InputProduct(NWConsole_96_IDContext db)
+        {
+            Products Product = new Products();
+            Console.WriteLine("Enter the Product name");
+            Product.ProductName = Console.ReadLine();
+    
+
+            ValidationContext context = new ValidationContext(Product, null, null);
+            List<ValidationResult> results = new List<ValidationResult>();
+
+            var isValid = Validator.TryValidateObject(Product, context, results, true);
+            if (isValid)
+            {
+                // check for unique name
+                if (db.Products.Any(b => b.ProductName == Product.ProductName))
+                {
+                    // generate validation error
+                    isValid = false;
+                    results.Add(new ValidationResult("Product name exists", new string[] { "Name" }));
+                }
+                else
+                {
+                    logger.Info("Validation passed");
+                }
+            }
+            if (!isValid)
+            {
+                foreach (var result in results)
+                {
+                    logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
+                }
+                return null;
+            }
+
+            return Product;
+        }
     }
 }
