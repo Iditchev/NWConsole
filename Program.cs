@@ -218,22 +218,24 @@ namespace NorthwindConsole
                          Console.ForegroundColor = ConsoleColor.DarkRed;
                          foreach (var item in query)
                          {
-                             Console.WriteLine($"{item.ProductId}) {item.ProductId}");
+                             Console.WriteLine($"{item.ProductId}) {item.ProductName}");
                          }
                          Console.ForegroundColor = ConsoleColor.White;
                          try
                          {int id = int.Parse(Console.ReadLine());
                          Console.Clear();
                          logger.Info($"ProductId {id} selected");
-                         Products Product = db.Products.Include("Products").FirstOrDefault(c => c.ProductId == id);
-                         Console.WriteLine($"ProductID:{Product.ProductId} - {Product.ProductName}");
+                         Products Product = db.Products.FirstOrDefault(c => c.ProductId == id);
+                         Console.WriteLine($"Product:{Product.ProductId} - {Product.ProductName}");
                          Console.WriteLine($"Quantity per Unit: {Product.QuantityPerUnit}");
                          Console.WriteLine($"Unit Price: {Product.UnitPrice}");
                          Console.WriteLine($"Units in Stock: {Product.UnitsInStock}");
                          Console.WriteLine($"Units on Order: {Product.UnitsOnOrder}");
                          Console.WriteLine($"Reorder Level: {Product.ReorderLevel}");
-                         Console.WriteLine($"Supplier: {Product.Supplier}");
-                         Console.WriteLine($"Product Category: {Product.Category}");
+                         Suppliers Supplier = db.Suppliers.FirstOrDefault(c => c.SupplierId == Product.SupplierId);
+                         Console.WriteLine($"Supplier: {Supplier.CompanyName}");
+                         Categories Category = db.Categories.FirstOrDefault(c => c.CategoryId == Product.CategoryId);
+                         Console.WriteLine($"Product Category: {Category.CategoryName}");
                          if (Product.Discontinued is true)
                          {
                              Console.WriteLine($"Product is Discontinued");
@@ -266,8 +268,30 @@ namespace NorthwindConsole
                             if (Category != null)
                             {
                             Products Product = new Products();
+                            Console.WriteLine("Select the Supplier for this Product");
+                            var suppliers = db.Suppliers.OrderBy(b => b.SupplierId);
+                            foreach (var item in suppliers)
+                            {
+                                Console.WriteLine($"{item.SupplierId}. {item.CompanyName}");
+                            }
+                            bool supplier = Int32.TryParse(Console.ReadLine(), out int SupplierId);
+                            if (supplier)
+                            {
+                                Product.SupplierId = SupplierId;
+                            }
+                            
                             Console.WriteLine("Enter Product Name");
                             Product.ProductName = Console.ReadLine();
+                            Console.WriteLine("Enter Quantity per Unit: ");
+                            Product.QuantityPerUnit = Console.ReadLine();
+                            Console.WriteLine("Enter Unit Price: ");
+                            Product.UnitPrice = Convert.ToInt32( Console.ReadLine());
+                            Console.WriteLine("Enter Units in Stock: ");
+                            Product.UnitsInStock = Convert.ToInt16(Console.ReadLine());
+                            Console.WriteLine("Enter Units on Order: ");
+                            Product.UnitsOnOrder = Convert.ToInt16(Console.ReadLine());
+                            Console.WriteLine("Enter Reorder Level: ");
+                            Product.ReorderLevel = Convert.ToInt16(Console.ReadLine());
                             
                             
                             Product.CategoryId = CategoryId;
