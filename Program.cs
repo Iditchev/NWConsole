@@ -247,16 +247,16 @@ namespace NorthwindConsole
                           // edit Product
                         Console.WriteLine("Choose the product to edit:");
                         var db = new NWConsole_96_IDContext();
-                        var Category = GetCategories(db);
-                        if (Category != null)
+                        var Product = GetProducts(db);
+                        if (Product != null)
                         {
-                            // input blog
-                            Categories UpdatedCategory = InputCategory(db);
-                            if (UpdatedCategory != null)
+                            // input Product
+                            Products UpdatedProduct = InputProduct(db);
+                            if (UpdatedProduct != null)
                             {
-                                UpdatedCategory.CategoryId = Category.CategoryId;
-                                db.EditCategory(UpdatedCategory);
-                                logger.Info($"Blog (id: {Category.CategoryId}) updated");
+                                UpdatedProduct.ProductId = Product.ProductId;
+                                db.EditProduct(UpdatedProduct);
+                                logger.Info($"Blog (id: {Product.ProductId}) updated");
                             }
                         }
                     }
