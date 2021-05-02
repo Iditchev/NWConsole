@@ -212,25 +212,37 @@ namespace NorthwindConsole
                         else if (DisplayChoice == "4")
                         {
                             var db = new NWConsole_96_IDContext();
-                         var query = db.Categories.OrderBy(p => p.CategoryId);
+                         var query = db.Products.OrderBy(p => p.ProductId);
 
-                         Console.WriteLine("Select the category whose products you want to display:");
+                         Console.WriteLine("Select the product you want to display:");
                          Console.ForegroundColor = ConsoleColor.DarkRed;
                          foreach (var item in query)
                          {
-                             Console.WriteLine($"{item.CategoryId}) {item.CategoryName}");
+                             Console.WriteLine($"{item.ProductId}) {item.ProductId}");
                          }
                          Console.ForegroundColor = ConsoleColor.White;
                          try
                          {int id = int.Parse(Console.ReadLine());
                          Console.Clear();
-                         logger.Info($"CategoryId {id} selected");
-                         Categories category = db.Categories.Include("Products").FirstOrDefault(c => c.CategoryId == id);
-                         Console.WriteLine($"{category.CategoryName} - {category.Description}");
-                         foreach (Products p in category.Products.Where(m => m.Discontinued is false))
+                         logger.Info($"ProductId {id} selected");
+                         Products Product = db.Products.Include("Products").FirstOrDefault(c => c.ProductId == id);
+                         Console.WriteLine($"ProductID:{Product.ProductId} - {Product.ProductName}");
+                         Console.WriteLine($"Quantity per Unit: {Product.QuantityPerUnit}");
+                         Console.WriteLine($"Unit Price: {Product.UnitPrice}");
+                         Console.WriteLine($"Units in Stock: {Product.UnitsInStock}");
+                         Console.WriteLine($"Units on Order: {Product.UnitsOnOrder}");
+                         Console.WriteLine($"Reorder Level: {Product.ReorderLevel}");
+                         Console.WriteLine($"Supplier: {Product.Supplier}");
+                         Console.WriteLine($"Product Category: {Product.Category}");
+                         if (Product.Discontinued is true)
                          {
-                             Console.WriteLine(p.ProductName);
+                             Console.WriteLine($"Product is Discontinued");
                          }
+                         else
+                         {
+                             Console.WriteLine($"Product is Active");
+                         }
+                         
                         } catch {logger.Error("Invalid category selected");}
                         }
                         else { logger.Error("Invalid entry, please try again");}
