@@ -322,5 +322,11 @@ namespace NorthwindConsole.Model
             Category.CategoryName = UpdatedCategory.CategoryName;
             this.SaveChanges();
         }
+        public void EditProduct (Products UpdatedProduct)
+        {
+            Products Product = this.Products.Find(UpdatedProduct.ProductId);
+            Product.ProductName = UpdatedProduct.ProductName;
+            this.SaveChanges();
+        }
     }
 }
