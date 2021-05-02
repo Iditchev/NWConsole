@@ -136,7 +136,7 @@ namespace NorthwindConsole
                      {
                           {
                         // edit Category
-                        Console.WriteLine("Choose the blog to edit:");
+                        Console.WriteLine("Choose the category to edit:");
                         var db = new NWConsole_96_IDContext();
                         var Category = GetCategories(db);
                         if (Category != null)
@@ -152,7 +152,7 @@ namespace NorthwindConsole
                         }
                     }
                      }
-                       else if (choice == "4")
+                    else if (choice == "4")
                      {
                          Console.WriteLine("1) Display all Products");
                          Console.WriteLine("2) Display discontinued products");
@@ -240,11 +240,25 @@ namespace NorthwindConsole
                      }
                     else if (choice == "5")
                     {
-                           //TODO Edit Category
+                           //TODO Add Product
                     }
                     else if (choice == "6")
                     {
-                        //TODO Add Product
+                          // edit Product
+                        Console.WriteLine("Choose the product to edit:");
+                        var db = new NWConsole_96_IDContext();
+                        var Category = GetCategories(db);
+                        if (Category != null)
+                        {
+                            // input blog
+                            Categories UpdatedCategory = InputCategory(db);
+                            if (UpdatedCategory != null)
+                            {
+                                UpdatedCategory.CategoryId = Category.CategoryId;
+                                db.EditCategory(UpdatedCategory);
+                                logger.Info($"Blog (id: {Category.CategoryId}) updated");
+                            }
+                        }
                     }
                     else if (choice == "7")
                     {
@@ -285,7 +299,7 @@ namespace NorthwindConsole
                     return Category;
                 }
             }
-            logger.Error("Invalid Blog Id");
+            logger.Error("Invalid Category Id");
             return null;
         }
       public static Categories InputCategory(NWConsole_96_IDContext db)
@@ -322,6 +336,25 @@ namespace NorthwindConsole
             }
 
             return Category;
+        }
+         public static Products GetProducts(NWConsole_96_IDContext db)
+        {
+            // display all Products
+            var products = db.Products.OrderBy(b => b.ProductId);
+            foreach (Products b in products)
+            {
+                Console.WriteLine($"{b.ProductId}: {b.ProductName}");
+            }
+            if (int.TryParse(Console.ReadLine(), out int ProductId))
+            {
+                Products Product = db.Products.FirstOrDefault(b => b.ProductId == ProductId);
+                if (Product != null)
+                {
+                    return Product;
+                }
+            }
+            logger.Error("Invalid Product Id");
+            return null;
         }
     }
 }
