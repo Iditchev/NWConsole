@@ -13,6 +13,7 @@ namespace NorthwindConsole
     {
         private static NLog.Logger logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
         static void Main(string[] args)
+
         {
            logger.Info("Program started");
             
@@ -133,7 +134,7 @@ namespace NorthwindConsole
                      }
                     else if (choice == "3")
                      {
-                         //TODO Edit Category
+                    
                      }
                        else if (choice == "4")
                      {
@@ -251,6 +252,25 @@ namespace NorthwindConsole
             }
              
              logger.Info("Program ended");
+        }
+       public static Categories GetCategories(NWConsole_96_IDContext db)
+        {
+            // display all Categories
+            var categories = db.Categories.OrderBy(b => b.CategoryId);
+            foreach (Categories b in categories)
+            {
+                Console.WriteLine($"{b.CategoryId}: {b.CategoryName}");
+            }
+            if (int.TryParse(Console.ReadLine(), out int CategoryId))
+            {
+                Categories Category = db.Categories.FirstOrDefault(b => b.CategoryId == CategoryId);
+                if (Category != null)
+                {
+                    return Category;
+                }
+            }
+            logger.Error("Invalid Blog Id");
+            return null;
         }
     }
 }
