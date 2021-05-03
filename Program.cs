@@ -40,6 +40,7 @@ namespace NorthwindConsole
                         string DisplayChoice = Console.ReadLine();
                         if (DisplayChoice == "1")
                         {
+                              logger.Info($"Option {DisplayChoice} selected");
                               var db = new NWConsole_96_IDContext();
                               var query = db.Categories.OrderBy(p => p.CategoryName);
 
@@ -54,6 +55,7 @@ namespace NorthwindConsole
                         }
                         else if (DisplayChoice == "2")
                         {
+                         logger.Info($"Option {DisplayChoice} selected");
                          var db = new NWConsole_96_IDContext();
                          var query = db.Categories.OrderBy(p => p.CategoryId);
 
@@ -78,6 +80,7 @@ namespace NorthwindConsole
                     }
                         else if (DisplayChoice == "3")
                         {
+                            logger.Info($"Option {DisplayChoice} selected");
                             var db = new NWConsole_96_IDContext();
                             var query = db.Categories.Include("Products").OrderBy(p => p.CategoryId);
                             foreach (var item in query)
@@ -159,6 +162,7 @@ namespace NorthwindConsole
                         string DisplayChoice = Console.ReadLine();
                         if (DisplayChoice == "1")
                         {
+                            logger.Info($"Option {DisplayChoice} selected");
                             var db = new NWConsole_96_IDContext();
                               var query = db.Products.OrderBy(p => p.ProductName);
 
@@ -183,6 +187,7 @@ namespace NorthwindConsole
                         }
                         else if (DisplayChoice == "2")
                         {
+                             logger.Info($"Option {DisplayChoice} selected");
                              var db = new NWConsole_96_IDContext();
                               var query = db.Products.OrderBy(p => p.ProductName);
 
@@ -197,6 +202,7 @@ namespace NorthwindConsole
                         }
                         else if (DisplayChoice == "3")
                         {
+                             logger.Info($"Option {DisplayChoice} selected");
                              var db = new NWConsole_96_IDContext();
                               var query = db.Products.OrderBy(p => p.ProductName);
 
@@ -211,7 +217,8 @@ namespace NorthwindConsole
                         }
                         else if (DisplayChoice == "4")
                         {
-                            var db = new NWConsole_96_IDContext();
+                         logger.Info($"Option {DisplayChoice} selected");
+                         var db = new NWConsole_96_IDContext();
                          var query = db.Products.OrderBy(p => p.ProductId);
 
                          Console.WriteLine("Select the product you want to display:");
